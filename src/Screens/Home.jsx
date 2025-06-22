@@ -24,6 +24,9 @@ import winner13 from "../images/Innothon'24_winner/winner13.jpg";
 import winner14 from "../images/Innothon'24_winner/winner14.jpg";
 import winner15 from "../images/Innothon'24_winner/winner15.jpg";
 
+import kcgLogo from "../images/kcg-logo.jpeg";
+import cseLogo from "../images/cse-logo.jpg";
+
 function Home() {
 
   const winnerImages = [winner1, winner2, winner3, winner4, winner5, winner6, winner7, winner8, winner9, winner10, winner11, winner12, winner13, winner14, winner15];
@@ -172,6 +175,20 @@ function Home() {
       <li><FaPhoneAlt className="note-icon" /><div>Rithika SK - Technical Lead, INNOCOM<br /><a href="tel:7708261904">7708261904</a></div></li>
       <li><FaPhoneAlt className="note-icon" /><div>Iyaad Luqmaan - Technical Lead, INNOCOM<br /><a href="tel:8714346406">8714346406</a></div></li>
     </ul>
+  </div>
+
+  <div className="footer-section powered-section">
+    <h3>Powered by</h3>
+    <div className="powered-logos">
+      <div className="powered-item">
+        <img src={kcgLogo} alt="KCG College of Technology" />
+        <p>KCG College of Technology</p>
+      </div>
+      <div className="powered-item">
+        <img src={cseLogo} alt="CSE Department" />
+        <p>Department of Computer Science & Engineering</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -409,7 +426,7 @@ function Home() {
           justify-content: space-between;
           flex-wrap: wrap;
           gap: 40px;
-          padding: 40px 20px;
+          padding: 30px 10px;
           
           color: #fff;
           margin-top: 50px;
@@ -465,6 +482,41 @@ function Home() {
           font-size: 14px;
           margin-top: 20px;
           color: #aaa;
+        }
+
+        .powered-section {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .powered-logos {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .powered-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .powered-item img {
+          width: 90px;
+          height: 90px;
+          object-fit: contain;
+          
+          padding: 4px;
+          border-radius: 8px;
+        }
+
+        .powered-item p {
+          font-size: 15px;
+          font-weight: 600;
+          color: #ccc;
+          text-align: left;   /* FIX */
+          margin: 0;          /* Optional: remove default spacing */
         }
 
         @media (max-width: 768px) {
