@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../Components/Header";
 import glitchLogo from "../images/INNOTHON-25-glitch.png";
 
@@ -31,6 +31,63 @@ function Home() {
 
   const winnerImages = [winner1, winner2, winner3, winner4, winner5, winner6, winner7, winner8, winner9, winner10, winner11, winner12, winner13, winner14, winner15];
   const [currentIndex, setCurrentIndex] = useState(0);
+
+
+
+      const innotext = `< INNOCOM is our platform for students to incubate and express their talents. It fosters entrepreneurship and innovation, guiding students towards a successful and independent future. Our club aims to elevate the standards of our students, creating achievers and trendsetters in the field of computer science. />`;
+
+      const innothonText = `< INNOTHON 25 is a 30-hour hackathon where students are challenged to develop innovative solutions to real-world problems. Problem statements of INNOTHON 25 are provided by our industry partners, giving students the opportunity to tackle genuine challenges faced by industries today. />`;
+
+      const [typedText, setTypedText] = useState('');
+      const [charIndex, setCharIndex] = useState(0);
+
+      const [typedInno25, setTypedInno25] = useState('');
+      const [charIndex25, setCharIndex25] = useState(0);
+
+      useEffect(() => {
+        if (charIndex < innotext.length) {
+          const timeout = setTimeout(() => {
+            setTypedText((prev) => prev + innotext[charIndex]);
+            setCharIndex((prev) => prev + 1);
+          }, 5);
+          return () => clearTimeout(timeout);
+        }
+      }, [charIndex]);
+
+      useEffect(() => {
+        if (charIndex >= innotext.length && charIndex25 < innothonText.length) {
+          const timeout = setTimeout(() => {
+            setTypedInno25((prev) => prev + innothonText[charIndex25]);
+            setCharIndex25((prev) => prev + 1);
+          }, 5);
+          return () => clearTimeout(timeout);
+        }
+      }, [charIndex25, charIndex]);
+
+      useEffect(() => {
+        const sections = document.querySelectorAll('.section');
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        }, {
+          threshold: 0.2,
+        });
+
+        sections.forEach((section) => {
+          observer.observe(section);
+        });
+
+        return () => {
+          sections.forEach((section) => {
+            observer.unobserve(section);
+          });
+        };
+      }, []);
+
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) =>
@@ -66,21 +123,21 @@ function Home() {
           {/* INNOCOM Section */}
           <section className="section">
             <h3 className="section-title">INNOCOM</h3>
-            <p className="section-text">
-             &lt; INNOCOM is our platform for students to incubate and express their talents. It fosters entrepreneurship
-              and innovation, guiding students towards a successful and independent future. Our club aims to elevate
-              the standards of our students, creating achievers and trendsetters in the field of computer science. /&gt;
+           <p className="section-text typewriter">
+              {typedText}
+              <span className="cursor" />
             </p>
+
           </section>
 
           {/* INNOTHON 25 Section */}
           <section className="section">
             <h3 className="section-title">INNOTHON 25</h3>
-            <p className="section-text">
-             &lt;  INNOTHON 25 is a 30-hour hackathon where students are challenged to develop innovative solutions to
-              real-world problems. Problem statements of Innotheon 25 are provided by our industry partners,
-              giving students the opportunity to tackle genuine challenges faced by industries today. /&gt;
+            <p className="section-text typewriter">
+              {typedInno25}
+              <span className="cursor" />
             </p>
+
           </section>
 
           {/* Evaluation Criteria Section */}
@@ -133,10 +190,11 @@ function Home() {
             </div>
           </div>
         </div>
+        
       </section>
       {/* Winner Carousel Section */}
       <section className="section carousel-section">
-        <h3 className="section-title">Previous Year Winners</h3>
+        <h3 className="section-title">Glimpses of Innothon'24</h3>
         <div className="carousel-container">
           <button className="carousel-btn left" onClick={prevSlide}>&lt;</button>
           <img src={winnerImages[currentIndex]} alt="Winner" className="carousel-image" />
@@ -153,59 +211,88 @@ function Home() {
             ></span>
           ))}
         </div>
-
       </section>
 
-      <div className="footer-container">
-  <div className="footer-section">
-    <h3>Note</h3>
-    <ul>
-      <li><FaRupeeSign className="note-icon" /><div>Enrollment Fee Rs.200/- per Participant<br />Rs.700/- per person for the finalists</div></li>
-      <li><FaUsers className="note-icon" /><div>Team must consist of maximum 3 members only</div></li>
-      <li><FaClock className="note-icon" /><div>30 hour hackathon</div></li>
-      <li><FaClipboard className="note-icon" /><div>Participants are expected to develop a prototype for the chosen problem statement.</div></li>
-    </ul>
-  </div>
+      <section>    
+          <div className="footer-container">
+            <div className="footer-section">
+              <h3>Note</h3>
+              <ul>
+                <li><FaRupeeSign className="note-icon" /><div>Enrollment Fee Rs.200/- per Participant<br />Rs.700/- per person for the finalists</div></li>
+                <li><FaUsers className="note-icon" /><div>Team must consist of maximum 3 members only</div></li>
+                <li><FaClock className="note-icon" /><div>30 hour hackathon</div></li>
+                <li><FaClipboard className="note-icon" /><div>Participants are expected to develop a prototype for the chosen problem statement.</div></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3>Contact Us</h3>
+              <ul>
+                <li><FaPhoneAlt className="note-icon" /><div>Jyotsna T - President, INNOCOM<br /><a href="tel:9962292154">9962292154</a></div></li>
+                <li><FaPhoneAlt className="note-icon" /><div>Subashri M - Secretary, INNOCOM<br /><a href="tel:8754458587">8754458587</a></div></li>
+                <li><FaPhoneAlt className="note-icon" /><div>Rithika SK - Technical Lead, INNOCOM<br /><a href="tel:7708261904">7708261904</a></div></li>
+                <li><FaPhoneAlt className="note-icon" /><div>Iyaad Luqmaan - Technical Lead, INNOCOM<br /><a href="tel:8714346406">8714346406</a></div></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section powered-section">
+              <h3>Powered by</h3>
+              <div className="powered-logos">
+                <div className="powered-item">
+                  <img src={kcgLogo} alt="KCG College of Technology" />
+                  <p>KCG College of Technology</p>
+                </div>
+                <div className="powered-item">
+                  <img src={cseLogo} alt="CSE Department" />
+                  <p>Department of Computer Science & Engineering</p>
+                </div>
+              </div>
+            </div>
+          </div>
+      </section>
+      <section className="help-section">
+        <h3 className="section-title">Need Help?</h3>
+        <p className="help-desc">For any issues or questions, feel free to reach out to us using the form below.</p>
+        <div className="help-form-container">
+          <form className="help-form">
+            <div className="form-row">
+              <input type="text" placeholder="First Name" required />
+              <input type="text" placeholder="Last Name" required />
+            </div>
+            <div className="form-row">
+              <input type="email" placeholder="Email ID" required />
+              <input type="tel" placeholder="Phone Number" required />
+            </div>
+            <div className="form-row full-width">
+              <textarea placeholder="Describe your issue or question..." rows="4" required></textarea>
+            </div>
+            <button type="submit" className="submit-btn">Submit</button>
+          </form>
+        </div>
+      </section>
 
-  <div className="footer-section">
-    <h3>Contact Us</h3>
-    <ul>
-      <li><FaPhoneAlt className="note-icon" /><div>Jyotsna T - President, INNOCOM<br /><a href="tel:9962292154">9962292154</a></div></li>
-      <li><FaPhoneAlt className="note-icon" /><div>Subashri M - Secretary, INNOCOM<br /><a href="tel:8754458587">8754458587</a></div></li>
-      <li><FaPhoneAlt className="note-icon" /><div>Rithika SK - Technical Lead, INNOCOM<br /><a href="tel:7708261904">7708261904</a></div></li>
-      <li><FaPhoneAlt className="note-icon" /><div>Iyaad Luqmaan - Technical Lead, INNOCOM<br /><a href="tel:8714346406">8714346406</a></div></li>
-    </ul>
-  </div>
 
-  <div className="footer-section powered-section">
-    <h3>Powered by</h3>
-    <div className="powered-logos">
-      <div className="powered-item">
-        <img src={kcgLogo} alt="KCG College of Technology" />
-        <p>KCG College of Technology</p>
-      </div>
-      <div className="powered-item">
-        <img src={cseLogo} alt="CSE Department" />
-        <p>Department of Computer Science & Engineering</p>
-      </div>
-    </div>
-  </div>
-</div>
+      <section>
 
-<div className="footer-bottom">
-  © 2025 LogicLoopers. All rights reserved.
-</div>
+        <div className="footer-bottom">
+          © Developed by Team - LogicLoopers
+        </div>
 
-
-
-
-
-
+      </section>
       </main>
     </div>
 
 
+
+
+
+
+
       <style>{`
+        body {
+          overscroll-behavior: none;
+        }
+
         .home-container {
           min-height: 100vh;
           background: linear-gradient(to bottom, #000, #0c172d);
@@ -221,9 +308,10 @@ function Home() {
         }
 
         .tagline {
-          font-size: 20px;
-          color: #00ffc8;
-          margin-bottom: 20px;
+          
+          overflow: hidden;
+         
+          display: inline-block;
         }
 
         .glitch-logo {
@@ -233,22 +321,35 @@ function Home() {
         }
 
         .section {
-          margin: 40px 0;
+          opacity: 0;
+          transform: translateY(40px);
+          transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+          will-change: opacity, transform;
         }
+
+        .section.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
 
         .section-title {
           font-size: 35px;
           font-weight: bold;
-          margin-bottom: 16px;
+          margin-bottom: 10px;
           color: #9dffff;
+          margin-top: 10px;
         }
 
         .section-text {
-          font-size: 16px;
-          color: #ccc;
+          display: block;
+          white-space: normal;
+          animation: none;
+          text-align: justify;
           line-height: 1.6;
           font-weight: 700;
         }
+
 
         .eval-criteria {
           display: flex;
@@ -259,7 +360,7 @@ function Home() {
         }
 
         .criteria-item {
-          border: 2px solid #ffffff33;
+          border: 2px solid;
           padding: 16px 24px;
           border-radius: 50px;
           font-size: 14px;
@@ -332,6 +433,7 @@ function Home() {
           padding-left: 10px;
           color: #eee;
           text-align: left;
+          font-weight: 700;
         }
 
         .timeline-title {
@@ -455,8 +557,10 @@ function Home() {
           gap: 10px;
           margin-bottom: 16px;
           font-size: 15px;
+          font-weight: 700;
           line-height: 1.6;
           text-align: left;
+          color: #ccc;
         }
 
         .footer-section li .note-icon {
@@ -480,6 +584,7 @@ function Home() {
         .footer-bottom {
           text-align: center;
           font-size: 14px;
+          font-weight: 700;
           margin-top: 20px;
           color: #aaa;
         }
@@ -513,11 +618,118 @@ function Home() {
 
         .powered-item p {
           font-size: 15px;
-          font-weight: 600;
+          font-weight: 700;
           color: #ccc;
           text-align: left;   /* FIX */
           margin: 0;          /* Optional: remove default spacing */
         }
+         .typewriter {
+          white-space: pre-wrap;
+          text-align: justify;
+          line-height: 1.6;
+          font-family: 'Courier New', monospace;
+          min-height: 140px;
+          overflow: hidden;
+        }
+
+        .cursor {
+          display: inline-block;
+          width: 8px;
+          height: 1em;
+          
+          margin-left: 2px;
+         
+        }
+
+        .help-section {
+          margin-top: 40px;
+          padding: 20px;
+          background:#ffffff0a;
+          border-radius: 12px;
+          color: #fff;
+        }
+
+        .help-desc {
+          font-size: 16px;
+          margin-bottom: 20px;
+          color: #ccc;
+        }
+
+        .help-form-container {
+          display: flex;
+          justify-content: center;
+        }
+
+        .help-form {
+          width: 100%;
+          max-width: 600px;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .form-row {
+          display: flex;
+          gap: 16px;
+        }
+
+        .form-row.full-width {
+          flex-direction: column;
+        }
+
+        .help-form input,
+        .help-form textarea {
+          flex: 1;
+          padding: 12px 14px;
+          border-radius: 8px;
+          border: 1px solid #444;
+          background-color: #ffffff0a;
+          color: #fff;
+          font-family: inherit;
+          font-size: 14px;
+        }
+
+        .help-form input:focus,
+        .help-form textarea:focus {
+          outline: none;
+          border-color: #31cece;
+        }
+
+        .submit-btn {
+          padding: 12px;
+          background-color: #31cece;
+          border: none;
+          border-radius: 8px;
+          color: #000;
+          font-weight: bold;
+          font-size: 15px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+          margin-bottom: 20px;
+        }
+
+        .submit-btn:hover {
+          background-color: #28baba;
+        }
+
+        @keyframes blink {
+          50% {
+            opacity: 0;
+          }
+        }
+
+        
+
+        @keyframes typing {
+          from {
+            width: 0;
+          }
+          to {
+            width: 100%;
+          }
+       }
+
+          
 
         @media (max-width: 768px) {
           .tagline {
@@ -531,6 +743,9 @@ function Home() {
           .section-text {
             font-size: 14px;
             font-weight: 700;
+          }
+          .typewriter {
+            min-height: 170px;
           }
 
           .criteria-item {
@@ -568,6 +783,7 @@ function Home() {
 
           .timeline-content p {
             font-size: 13px;
+            
           }
             
           .carousel-image {
@@ -589,6 +805,9 @@ function Home() {
             height: 8px;
             width: 8px;
           }
+            .form-row {
+          flex-direction: column;
+        }
         }
       `}</style>
     </>

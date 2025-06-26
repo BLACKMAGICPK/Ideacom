@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../images/Innocom-logo.jpg"; // Adjust the path as necessary
-import profilePic from "../images/profile.avif";
+import profilePic from "../images/modern-avatar.jpg";
 
 function Header() {
   return (
@@ -17,10 +17,10 @@ function Header() {
           <span className="brand-name">INNOTHON'25</span>
         </div>
         <nav className="nav-links">
-          <a href="#">Home</a>
-          <a href="#">Domains</a>
-          <a href="#">About-Us</a>
-          <a href="#">
+          <a href="/">Home</a>
+          <a href="/domains">Domains</a>
+          <a href="/about-us">About</a>
+          <a href="/login">
             <img src={profilePic} alt="Profile" className="profile-icon" />
           </a>
         </nav>
@@ -77,11 +77,11 @@ function Header() {
         }
 
         .profile-icon {
-          width: 30px;
-          height: 30px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
           object-fit: cover;
-          border: 2px solid white;
+          border: 1px solid #fff;
         }
 
         /* Tablet adjustments (≤768px) */
@@ -112,7 +112,7 @@ function Header() {
         /* Mobile adjustments (≤480px) */
         @media (max-width: 480px) {
           .logo {
-            height: 24px;
+            height: 30px;
           }
 
           .brand-name {
@@ -121,12 +121,13 @@ function Header() {
 
           .nav-links a {
             margin-left: 5px;
-            font-size: 16px;
+            font-size: 15px;
+            font-weight: 700;
           }
 
           .profile-icon {
-            width: 22px;
-            height: 22px;
+            width: 28px;
+            height: 28px;
           }
 
           .header {

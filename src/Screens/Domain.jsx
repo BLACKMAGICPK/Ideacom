@@ -1,4 +1,7 @@
 import React from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Header from "../Components/Header";
 
 // Import icons
@@ -8,41 +11,77 @@ import {
 } from "react-icons/fa";
 
 function Domains() {
+   const navigate = useNavigate();
+    useEffect(() => {
+            const sections = document.querySelectorAll('.section');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+                });
+            }, { threshold: 0.2 });
+
+            sections.forEach(section => observer.observe(section));
+
+            return () => {
+                sections.forEach(section => observer.unobserve(section));
+            };
+            }, []);
+
+            const handleDomainClick = (path) => {
+            if (path) {
+              navigate(path);
+            } else {
+              alert("Page not available for this domain yet!");
+            }
+          };
+
+
+
   const domains = [
   {
     name: "Web Development",
     icon: <FaCode />,
-    desc: "Build dynamic and scalable websites and platforms using modern technologies and frameworks."
+    desc: "Build dynamic and scalable websites and platforms using modern technologies and frameworks.",
+    path: "/wd-ps"
   },
   {
     name: "App Development",
     icon: <FaMobileAlt />,
-    desc: "Develop robust and user-friendly mobile applications for Android, iOS, or cross-platform devices."
+    desc: "Develop robust and user-friendly mobile applications for Android, iOS, or cross-platform devices.",
+    path: "/app-ps"
   },
   {
     name: "Cybersecurity",
     icon: <FaLock />,
-    desc: "Delve into the world of Cyber Security challenges and create secure digital solutions."
+    desc: "Delve into the world of Cyber Security challenges and create secure digital solutions.",
+    path: "/cs-ps"
   },
   {
     name: "AR/VR",
     icon: <FaVrCardboard />,
-    desc: "Augmented Reality and Virtual Reality problem statements for immersive experiences."
+    desc: "Augmented Reality and Virtual Reality problem statements for immersive experiences.",
+    path: "/arvr-ps"
   },
   {
     name: "AI/ML",
     icon: <FaBrain />,
-    desc: "Explore intelligent systems and models in Artificial Intelligence and Machine Learning."
+    desc: "Explore intelligent systems and models in Artificial Intelligence and Machine Learning.",
+    path: "/aiml-ps"
   },
   {
     name: "Cloud Computing",
     icon: <FaCloud />,
-    desc: "Leverage cloud platforms and services to build efficient, distributed applications."
+    desc: "Leverage cloud platforms and services to build efficient, distributed applications.",
+    path: "/cc-ps"
   },
   {
     name: "Open Statement",
     icon: <FaQuestionCircle />,
-    desc: "Tackle open-ended challenges with creative and innovative tech-based solutions."
+    desc: "Tackle open-ended challenges with creative and innovative tech-based solutions.",
+    
   },
 ];
 
@@ -82,22 +121,27 @@ function Domains() {
 
   return (
     <>
-      <div className="domains-container">
         <Header />
+      <div className="domains-container">
         <main className="domains-content">
-          <h2 className="tagline">&lt; Explore INNOTHON 25 Domains & Awards /&gt;</h2>
+          <h2 className="tagline">&lt; Explore INNOTHON'25 Domains & Awards /&gt;</h2>
 
           {/* Domains Section */}
           <section className="section">
             <h3 className="section-title">Project Domains</h3>
             <div className="card-grid">
               {domains.map((domain, index) => (
-                <div className="info-card" key={index}>
-                <div className="icon">{domain.icon}</div>
-                <span className="title">{domain.name}</span>
-                <p className="desc">&lt; {domain.desc} /&gt;</p>
+                <div
+                  className="info-card"
+                  key={index}
+                  style={{ '--i': index }}
+                  onClick={() => handleDomainClick(domain.path)}
+                  role="button"
+                >
+                  <div className="icon">{domain.icon}</div>
+                  <span className="title">{domain.name}</span>
+                  <p className="desc">&lt; {domain.desc} /&gt;</p>
                 </div>
-
               ))}
             </div>
           </section>
@@ -107,7 +151,7 @@ function Domains() {
             <h3 className="section-title">Announcement of the Awards</h3>
             <div className="card-grid">
               {awards.map((award, index) => (
-                <div className="info-card" key={index}>
+                <div className="info-card" key={index} style={{ '--i': index }}>
                   <div className="icon">{award.icon}</div>
                   <span className="title">{award.name}</span>
                   <p className="desc">&lt; {award.desc} /&gt;</p>
@@ -119,11 +163,15 @@ function Domains() {
       </div>
 
       <style>{`
+        body {
+            overscroll-behavior: none;
+          }
         .domains-container {
           min-height: 100vh;
           background: linear-gradient(to bottom, #000, #0c172d);
           color: white;
           font-family: 'Courier New', monospace;
+          
         }
 
         .domains-content {
@@ -135,8 +183,9 @@ function Domains() {
 
         .tagline {
           font-size: 20px;
-          color: #00ffc8;
+          color: #fff;
           margin-bottom: 40px;
+          
         }
 
         .section-title {
@@ -185,39 +234,97 @@ function Domains() {
 
         .desc {
           font-size: 14px;
-          color: #ccc;
-          font-weight: 600;
+          color:#ccc;
+          font-weight: 700;
         }
+          .section {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+            }
+
+            .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+            }
+            /* Initial state for animation */
+                .info-card {
+                opacity: 0;
+                transform: translateY(30px); /* default: center card fades up */
+                transition: all 0.7s ease-out;
+                }
+
+                /* Odd-numbered cards (assume they appear on the left) */
+                .card-grid .info-card:nth-child(3n + 1) {
+                transform: translateX(-50px);
+                }
+
+                /* Even-numbered cards that are on the right */
+                .card-grid .info-card:nth-child(3n) {
+                transform: translateX(50px);
+                }
+
+                /* Animate to center on section visible */
+                .section.visible .info-card {
+                opacity: 1;
+                transform: translateX(0) translateY(0);
+                }
+
+
+
 
         @media (max-width: 768px) {
-        .tagline{
-            font-size: 15px;
-        }
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
-            gap: 16px;
-            justify-items: center;
-        }
+            .domains-container{
+            overflow-x: hidden;
+            }
+            .tagline {
+                font-size: 18px;
+            }
 
-        .info-card {
-            width: 100%;
-            max-width: 160px;
-            padding: 15px;
-        }
+            .card-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 16px;
+                justify-items: center;
+            }
 
-        .icon {
-            font-size: 28px;
-        }
+            .info-card {
+                width: 90%;
+                max-width: 160px;
+                padding: 12px;
+                opacity: 0;
+                transform: translateY(30px); /* default: fade up */
+                transition: all 0.7s ease-out;
+            }
 
-        .title {
-            font-size: 14px;
-        }
+            .card-grid .info-card:nth-child(odd) {
+                transform: translateX(-50px);
+            }
 
-        .desc {
-            font-size: 13px;
-        }
-        }
+            .card-grid .info-card:nth-child(even) {
+                transform: translateX(50px);
+            }
+
+            .section.visible .info-card {
+                opacity: 1;
+                transform: translateX(0) translateY(0);
+            }
+
+            .icon {
+                font-size: 28px;
+            }
+
+            .title {
+                font-size: 16px;
+                
+            }
+
+            .desc {
+                font-size: 13px;
+            }
+            }
+
 
       `}</style>
     </>
