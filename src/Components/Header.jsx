@@ -70,7 +70,7 @@ function Header() {
         }
 
         .logo {
-          height: 50px;
+          height: 60px;
           width: auto;
           margin-right: 8px;
           border-radius: 5px;
