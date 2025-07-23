@@ -35,7 +35,7 @@ function Header() {
 
         {/* Hamburger Menu (Mobile Only) */}
         <div className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
-          ☰
+          {menuOpen ? "✕" : "☰"}
         </div>
 
         {/* Popup Menu */}
@@ -108,39 +108,56 @@ function Header() {
         }
 
         .menu-toggle {
-          display: none;
-          font-size: 28px;
-          cursor: pointer;
-        }
+            display: none;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #222;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background 0.3s ease, transform 0.3s ease;
+            user-select: none;
+            font-weight: bold;
+          }
+          .menu-toggle:hover {
+            background-color: #333;
+          }
+          .menu-toggle:active {
+            transform: scale(0.95);
+          }
 
         .popup-menu {
           position: absolute;
           top: 70px;
           right: 16px;
-          background: #111;
-          border: 1px solid #555;
-          padding: 10px 20px;
-          border-radius: 8px;
+          background: #1a1a1a;
+          border: 1px solid #333;
+          padding: 16px 20px;
+          border-radius: 12px;
           display: flex;
           flex-direction: column;
-          z-index: 10;
+          z-index: 999;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+          animation: fadeIn 0.3s ease-in-out;
+          min-width: 160px;
         }
 
         .popup-menu a {
-          color: white;
+          color: #fff;
           text-decoration: none;
-          padding: 8px 0;
-          font-size: 18px;
+          padding: 10px 12px;
+          font-size: 17px;
           font-weight: 600;
+          border-radius: 8px;
+          transition: background 0.2s ease, color 0.2s ease;
         }
-
         .popup-menu a:hover {
+          background: #333;
           color: #00ffff;
         }
 
         .popup-menu .profile-icon {
-          width: 30px;
-          height: 30px;
+          width: 28px;
+          height: 28px;
           margin-top: 8px;
         }
           .desktop-only {
@@ -186,6 +203,16 @@ function Header() {
 
           .popup-menu .mobile-only {
             padding: 8px 0;
+          }
+            @keyframes fadeIn {
+            0% {
+              opacity: 0;
+              transform: translateY(-5px);
+            }
+            100% {
+              opacity: 1;
+              transform: translateY(0);
+            }
           }
         }
       `}</style>

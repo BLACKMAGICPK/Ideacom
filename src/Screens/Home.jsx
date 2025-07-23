@@ -413,7 +413,7 @@ function Home() {
             position: absolute;
             left: 6px;
             top: 30px;
-            bottom: 120px; /* This makes it stop at the last item */
+            bottom: 100px; /* This makes it stop at the last item */
             width: 2px;
             background-color: white;
           }
@@ -867,7 +867,7 @@ function Home() {
           .timeline::before { 
             left: 5px;
             top: 30px;
-            bottom: 110px; /* This makes it stop at the last item */
+            bottom: 100px; /* This makes it stop at the last item */
            
           }
           .timeline-icon {

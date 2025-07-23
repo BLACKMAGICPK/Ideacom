@@ -259,7 +259,7 @@ function AboutUs() {
         text-align: center;
         }
         .section-text{
-          font-size: 18px;
+          font-size: 16px;
           text-align: center;
           }
         
