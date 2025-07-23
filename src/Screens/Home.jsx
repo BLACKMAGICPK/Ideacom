@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Header from "../Components/Header";
 import glitchLogo from "../images/ideacom_final.jpg";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
+import BASE_URL from '../Configure';
 
 // Import icons
 import { FaLightbulb, FaCheckCircle, FaLeaf, FaClipboardList, FaBrain, FaTasks, FaProjectDiagram } from "react-icons/fa";
@@ -91,7 +92,7 @@ function Home() {
       }
 
       try {
-        const res = await fetch("http://localhost:5000/submit-help", {
+        const res = await fetch(`${BASE_URL}/submit-help`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

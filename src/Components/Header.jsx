@@ -26,9 +26,11 @@ function Header() {
           <a href="/">Home</a>
           <a href="/domains">Domains</a>
           <a href="/about-us">About</a>
-          <a href="/login">
-            <img src={innocomLogo} alt="Profile" className="profile-icon" />
+          <a href="/login" className="login-link">
+            <img src={innocomLogo} alt="Profile" className="profile-icon desktop-only" />
+            <span className="mobile-only login-text">Login</span>
           </a>
+
         </nav>
 
         {/* Hamburger Menu (Mobile Only) */}
@@ -42,9 +44,10 @@ function Header() {
             <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
             <a href="/domains" onClick={() => setMenuOpen(false)}>Domains</a>
             <a href="/about-us" onClick={() => setMenuOpen(false)}>About</a>
-            <a href="/login" onClick={() => setMenuOpen(false)}>
-              <img src={innocomLogo} alt="Profile" className="profile-icon" />
-            </a>
+            <a href="/login" className="login-link">
+            <img src={innocomLogo} alt="Profile" className="profile-icon desktop-only" />
+            <span className="mobile-only login-text">Login</span>
+          </a>
           </div>
         )}
       </header>
@@ -140,6 +143,13 @@ function Header() {
           height: 30px;
           margin-top: 8px;
         }
+          .desktop-only {
+              display: inline;
+            }
+
+            .mobile-only {
+              display: none;
+            }
 
         @media (max-width: 768px) {
           .nav-links {
@@ -162,6 +172,20 @@ function Header() {
 
           .header {
             padding: 12px;
+          }
+             .desktop-only {
+            display: none;
+          }
+
+          .mobile-only {
+            display: inline;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+          }
+
+          .popup-menu .mobile-only {
+            padding: 8px 0;
           }
         }
       `}</style>
