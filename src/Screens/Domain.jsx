@@ -1,162 +1,136 @@
-import React from "react";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { FaInstagram, FaLinkedin } from 'react-icons/fa';
 
 import Header from "../Components/Header";
 
-// Import icons
 import {
-  FaCode, FaBrain, FaCloud, FaLock, FaMobileAlt, FaVrCardboard, FaQuestionCircle,
-  FaTrophy, FaShieldAlt, FaAward, FaTools, FaCertificate, FaGift
+  FaHeartbeat,
+  FaTractor,
+  FaSolarPanel,
+  FaCar,
+  FaMicrochip,
+  FaUniversalAccess,
+  FaShieldAlt,
+  FaBookOpen,
+  FaHome,
+  FaCube
 } from "react-icons/fa";
 
+
 function Domains() {
-   const navigate = useNavigate();
-    useEffect(() => {
-            const sections = document.querySelectorAll('.section');
+  useEffect(() => {
+    const sections = document.querySelectorAll('.section');
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-                });
-            }, { threshold: 0.2 });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
 
-            sections.forEach(section => observer.observe(section));
+    sections.forEach(section => observer.observe(section));
 
-            return () => {
-                sections.forEach(section => observer.unobserve(section));
-            };
-            }, []);
-
-            const handleDomainClick = (path) => {
-            if (path) {
-              navigate(path);
-            } else {
-              alert("Page not available for this domain yet!");
-            }
-          };
-
-
+    return () => {
+      sections.forEach(section => observer.unobserve(section));
+    };
+  }, []);
 
   const domains = [
   {
-    name: "Web Development",
-    icon: <FaCode />,
-    desc: "Build dynamic and scalable websites and platforms using modern technologies and frameworks.",
-    path: "/wd-ps"
+    name: "HealthTech & MedTech Devices",
+    icon: <FaHeartbeat />,
+    desc: "Innovative hardware solutions for healthcare and medical technology."
   },
   {
-    name: "App Development",
-    icon: <FaMobileAlt />,
-    desc: "Develop robust and user-friendly mobile applications for Android, iOS, or cross-platform devices.",
-    path: "/app-ps"
+    name: "AgriTech Hardware Solutions",
+    icon: <FaTractor />,
+    desc: "Devices to enhance efficiency and productivity in agriculture."
   },
   {
-    name: "Cybersecurity",
-    icon: <FaLock />,
-    desc: "Delve into the world of Cyber Security challenges and create secure digital solutions.",
-    path: "/cs-ps"
+    name: "Renewable Energy & Sustainability",
+    icon: <FaSolarPanel />,
+    desc: "Hardware innovations for green energy and environmental sustainability."
   },
   {
-    name: "AR/VR",
-    icon: <FaVrCardboard />,
-    desc: "Augmented Reality and Virtual Reality problem statements for immersive experiences.",
-    path: "/arvr-ps"
+    name: "Smart Mobility & Transportation",
+    icon: <FaCar />,
+    desc: "Tech-driven hardware for efficient transport and smart mobility."
   },
   {
-    name: "AI/ML",
-    icon: <FaBrain />,
-    desc: "Explore intelligent systems and models in Artificial Intelligence and Machine Learning.",
-    path: "/aiml-ps"
+    name: "IoT & Smart Devices for MSMEs",
+    icon: <FaMicrochip />,
+    desc: "IoT-based devices empowering micro, small, and medium enterprises."
   },
   {
-    name: "Cloud Computing",
-    icon: <FaCloud />,
-    desc: "Leverage cloud platforms and services to build efficient, distributed applications.",
-    path: "/cc-ps"
+    name: "Assistive Technology & Inclusive Design",
+    icon: <FaUniversalAccess />,
+    desc: "Accessible and inclusive tech solutions for diverse needs."
   },
   {
-    name: "Open Statement",
-    icon: <FaQuestionCircle />,
-    desc: "Tackle open-ended challenges with creative and innovative tech-based solutions.",
-    
+    name: "Disaster Management & Public Safety Devices",
+    icon: <FaShieldAlt />,
+    desc: "Devices aimed at safety, surveillance, and emergency management."
   },
+  {
+    name: "Education & Learning Tools",
+    icon: <FaBookOpen />,
+    desc: "Innovative hardware tools that support modern learning."
+  },
+  {
+    name: "Home & Lifestyle Hardware Innovations",
+    icon: <FaHome />,
+    desc: "Smart gadgets and devices to enhance daily life and convenience."
+  },
+  {
+    name: "Other Emerging Hardware Products",
+    icon: <FaCube />,
+    desc: "Open category for groundbreaking and unexplored hardware ideas."
+  }
 ];
-
-
-  const awards = [
-    {
-      name: "Overall Title Winner",
-      icon: <FaTrophy />,
-      desc: "Awarded to the team with the most outstanding performance across all categories.",
-    },
-    {
-      name: "Domain-Wise Title Winner",
-      icon: <FaShieldAlt />,
-      desc: "Recognizes the best team in each specific domain such as AI/ML, Cybersecurity, AR/VR, etc.",
-    },
-    {
-      name: "Best UI/UX",
-      icon: <FaAward />,
-      desc: "Awarded to the team with the most user-friendly and aesthetically pleasing interface design.",
-    },
-    {
-      name: "Best Clean Code",
-      icon: <FaTools />,
-      desc: "Honors the team with the best coding practices, maintainable, and well-documented code.",
-    },
-    {
-      name: "Special Jury Prizes",
-      icon: <FaCertificate />,
-      desc: "Each jury member can recommend a special prize to the team they find the most innovative or impactful.",
-    },
-    {
-      name: "More Exciting Gifts and Goodies",
-      icon: <FaGift />,
-      desc: "Get ready for more fun, learning opportunities, and exciting goodies for participants!",
-    },
-  ];
 
   return (
     <>
-        <Header />
+      <Header />
       <div className="domains-container">
         <main className="domains-content">
-          <h2 className="tagline">&lt; Explore INNOTHON'25 Domains & Awards /&gt;</h2>
+          
 
-          {/* Domains Section */}
           <section className="section">
             <h3 className="section-title">Project Domains</h3>
+           
             <div className="card-grid">
               {domains.map((domain, index) => (
                 <div
                   className="info-card"
                   key={index}
                   style={{ '--i': index }}
-                  onClick={() => handleDomainClick(domain.path)}
-                  role="button"
                 >
                   <div className="icon">{domain.icon}</div>
                   <span className="title">{domain.name}</span>
-                  <p className="desc">&lt; {domain.desc} /&gt;</p>
+                  <p className="desc"> {domain.desc} </p>
                 </div>
               ))}
             </div>
+             <div className="register-button-container">
+          <button
+            className="register-button"
+            onClick={() => window.location.href = "/register"} // Change to your actual registration link
+          >
+            Register Now
+          </button>
+            </div>
           </section>
 
-          {/* Awards Section */}
-          <section className="section">
-            <h3 className="section-title">Announcement of the Awards</h3>
-            <div className="card-grid">
-              {awards.map((award, index) => (
-                <div className="info-card" key={index} style={{ '--i': index }}>
-                  <div className="icon">{award.icon}</div>
-                  <span className="title">{award.name}</span>
-                  <p className="desc">&lt; {award.desc} /&gt;</p>
-                </div>
-              ))}
+          <section>
+            <div className="footer-bottom" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
+              <span>© Developed by Team - LogicLoopers</span>
+              <a href="https://www.instagram.com/logicloopersofficial/" target="_blank" rel="noopener noreferrer">
+                <FaInstagram style={{ color: '#ccc', fontSize: '1.5rem' }} />
+              </a>
+              <a href="https://www.linkedin.com/company/logic-loopers/" target="_blank" rel="noopener noreferrer">
+                <FaLinkedin style={{ color: '#ccc', fontSize: '1.5rem' }} />
+              </a>
             </div>
           </section>
         </main>
@@ -170,7 +144,7 @@ function Domains() {
           min-height: 100vh;
           background: linear-gradient(to bottom, #000, #0c172d);
           color: white;
-          font-family: 'Courier New', monospace;
+          font-family: "poppins", sans-serif;
           
         }
 
@@ -189,11 +163,13 @@ function Domains() {
         }
 
         .section-title {
-          font-size: 35px;
-          font-weight: bold;
-          margin-bottom: 30px;
-          color: #9dffff;
-        }
+        font-size: 35px;
+        margin-bottom: 40px;
+        background: linear-gradient(to right, #007BFF, #04fdbfff); /* Gradient color */
+        -webkit-background-clip: text; /* Clip the background to the text */
+        -webkit-text-fill-color: transparent; /* Make the text color transparent */
+        margin-top: 10px;
+      }
 
         .card-grid {
           display: flex;
@@ -216,7 +192,9 @@ function Domains() {
         }
 
         .info-card:hover {
-          background-color: #31cece;
+          background: linear-gradient(to right, #007BFF, #04fdbfff); /* Gradient color */
+        -webkit-background-clip: text; /* Clip the background to the text */
+        -webkit-text-fill-color: transparent; /* Make the text color transparent */
         }
 
         .icon {
@@ -270,6 +248,36 @@ function Domains() {
                 opacity: 1;
                 transform: translateX(0) translateY(0);
                 }
+          .footer-bottom {
+          text-align: center;
+          font-size: 16px;
+          font-weight: 700;
+          margin-top: 30px;
+          color: #aaa;
+        }
+          .register-button-container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.register-button {
+  background: linear-gradient(to right, #007BFF, #04fdbfff);
+  color: #000;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.register-button:hover {
+  background-color: #22bebe;
+  transform: translateY(-2px);
+}
 
 
 

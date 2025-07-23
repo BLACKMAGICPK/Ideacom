@@ -1,5 +1,7 @@
 import React from "react";
-import logo from "../images/Innocom-logo.jpg"; // Adjust the path as necessary
+import innocomLogo from "../images/innocom.jpg";
+import kcgLogo from "../images/kcg-logo-new.jpg";      // Add KCG logo
+import cseLogo from "../images/cse-logo.jpg";      // Add CSE logo
 import profilePic from "../images/modern-avatar.jpg";
 
 function Header() {
@@ -13,15 +15,17 @@ function Header() {
 
       <header className="header">
         <div className="logo-section">
-          <img src={logo} alt="Logo" className="logo" />
-          <span className="brand-name">INNOTHON'25</span>
+          <img src={kcgLogo} alt="KCG Logo" className="logo" />
+          <img src={cseLogo} alt="CSE Logo" className="logo" />
+          <img src={innocomLogo} alt="Innocom Logo" className="logo" />
+          
         </div>
         <nav className="nav-links">
           <a href="/">Home</a>
           <a href="/domains">Domains</a>
           <a href="/about-us">About</a>
           <a href="/login">
-            <img src={profilePic} alt="Profile" className="profile-icon" />
+            <img src={innocomLogo} alt="Profile" className="profile-icon" />
           </a>
         </nav>
       </header>
@@ -30,11 +34,11 @@ function Header() {
         .header {
           background-color: black;
           color: white;
-          padding: 10px 16px;
+          padding: 20px 16px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          font-family: 'Sen', sans-serif;
+          font-family: "poppins", sans-serif;
           flex-wrap: nowrap;
         }
 
@@ -44,31 +48,36 @@ function Header() {
         }
 
         .logo {
-          height: 40px;
+          height: 50px;
+          width: auto;
           margin-right: 8px;
-          border-radius: 50%; /* Rounded corners for the logo */
+          border-radius: 5px;
+          object-fit: cover;
         }
 
         .brand-name {
-          font-size: 24px;
+          font-size: 28px;
           font-weight: 700;
           color: white;
-          font-family: 'Sen', sans-serif; /* keep branding bold and clean */
+          font-family: "poppins", sans-serif;
         }
 
         .nav-links {
           display: flex;
           align-items: center;
           flex-wrap: nowrap;
-          font-family: 'Courier New', Courier, monospace; /* Coding font */
+          font-family: "poppins", sans-serif;
+           background: linear-gradient(to right, #007BFF, #04fdbfff); /* Gradient color */
+        -webkit-background-clip: text; /* Clip the background to the text */
+        -webkit-text-fill-color: transparent; /* Make the text color transparent */
         }
 
         .nav-links a {
           color: white;
           text-decoration: none;
           margin-left: 16px;
-          font-weight: 400;
-          font-size: 18px;
+          font-weight: 600;
+          font-size: 20px;
           transition: color 0.3s ease;
         }
 
@@ -84,10 +93,10 @@ function Header() {
           border: 1px solid #fff;
         }
 
-        /* Tablet adjustments (≤768px) */
         @media (max-width: 768px) {
           .logo {
             height: 30px;
+            width: auto;
           }
 
           .brand-name {
@@ -109,10 +118,10 @@ function Header() {
           }
         }
 
-        /* Mobile adjustments (≤480px) */
         @media (max-width: 480px) {
           .logo {
-            height: 30px;
+            height: 28px;
+            width: auto;
           }
 
           .brand-name {

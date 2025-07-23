@@ -1,6 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Header from "../Components/Header";
+import { FaInstagram, FaLinkedin } from 'react-icons/fa';
+
 
 import jyotsnaImg from "../images/core _team/jyotsna.jpg";
 import subashriImg from "../images/core _team/subashri.jpg";
@@ -8,8 +10,8 @@ import rithikaImg from "../images/core _team/rithika_2.jpg";
 import iyaadImg from "../images/core _team/Iyaad.png";
 import lalithaImg from "../images/core _team/lalitha.jpg";
 
-import premImg from "../images/Web-developers/Premkumar_4.png";
-import vamithaImg from "../images/Web-developers/vamitha.png";
+import premImg from "../images/Web-developers/Prem.jpg";
+import vamithaImg from "../images/Web-developers/vamitha_v.jpg";
 
 import AjayImg from "../images/quango/Ajay.jpg";
 import DhanushImg from "../images/quango/Dhanush.jpg";
@@ -27,10 +29,7 @@ import SivakumarImg from "../images/quango/Sivakumar.jpg";
 
 
 function AboutUs() {
-  const aboutText = `< The Innocom Club of the CSE Department, KCG Tech is a student-driven community that fosters inclusivity, peer growth, and technical excellence. It empowers students through hands-on programs in AIML, Cybersecurity, and emerging tech domains, while actively guiding them in project development and innovation. Flagship events like Innothon ‘23 and Innothon ‘24 showcased impactful student solutions through intense prelims and mentorship. Challenges like Web Quest further spark research and critical thinking. Innocom creates a vibrant space for collaboration, creativity, and continuous learning, helping students turn ideas into action. />`;
-
-  const [typedAbout, setTypedAbout] = useState("");
-  const [aboutIndex, setAboutIndex] = useState(0);
+ 
 
   useEffect(() => {
     const elements = document.querySelectorAll(".scroll-fade");
@@ -50,15 +49,7 @@ function AboutUs() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (aboutIndex < aboutText.length) {
-      const timeout = setTimeout(() => {
-        setTypedAbout((prev) => prev + aboutText[aboutIndex]);
-        setAboutIndex((prev) => prev + 1);
-      }, 5);
-      return () => clearTimeout(timeout);
-    }
-  }, [aboutIndex]);
+  
 
  const coreMembers = [
   { id: "jyotsna", name: "Jyotsna T", role: "President", image: jyotsnaImg, color: "#31cece" },
@@ -99,8 +90,8 @@ function AboutUs() {
             <section className="section fade-in">
                 <h3 className="section-title">About Us</h3>
                 <p className="section-text typewriter">
-                    {typedAbout}
-                    <span className="cursor" />
+                    The Innocom Club of the CSE Department, KCG Tech is a student-driven community that fosters inclusivity, peer growth, and technical excellence. It empowers students through hands-on programs in AIML, Cybersecurity, and emerging tech domains, while actively guiding them in project development and innovation. Flagship events like Innothon ‘23 and Innothon ‘24 showcased impactful student solutions through intense prelims and mentorship. Challenges like Web Quest further spark research and critical thinking. Innocom creates a vibrant space for collaboration, creativity, and continuous learning, helping students turn ideas into action. 
+
                 </p>
             </section>
 
@@ -175,7 +166,7 @@ function AboutUs() {
       <div className="dev-details">
         <h4 className="dev-name">Premkumar D</h4>
         <p className="dev-role"> Web Developer</p>
-        <p className="dev-tag">@innothon'25</p>
+        <p className="dev-tag">@LogicLoopers</p>
       </div>
     </div>
 
@@ -189,7 +180,7 @@ function AboutUs() {
       <div className="dev-details">
         <h4 className="dev-name">Vamitha V</h4>
         <p className="dev-role">Web Developer</p>
-        <p className="dev-tag">@innothon'25</p>
+        <p className="dev-tag">@LogicLoopers</p>
       </div>
     </div>
 
@@ -212,6 +203,19 @@ function AboutUs() {
                     ))}
                 </div>
                 </section>
+      <section>
+
+        <div className="footer-bottom" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
+          <span>© Developed by Team - LogicLoopers</span>
+          <a href="https://www.instagram.com/logicloopersofficial/" target="_blank" rel="noopener noreferrer">
+            <FaInstagram style={{ color: '#ccc', fontSize: '1.5rem' }} />
+          </a>
+          <a href="https://www.linkedin.com/company/logic-loopers/" target="_blank" rel="noopener noreferrer">
+            <FaLinkedin style={{ color: '#ccc', fontSize: '1.5rem' }} />
+          </a>
+        </div>
+
+      </section>
 
 
         </main>
@@ -229,7 +233,7 @@ function AboutUs() {
           min-height: 100vh;
           background: linear-gradient(to bottom, #000, #0c172d);
           color: white;
-          font-family: 'Courier New', monospace;
+          font-family: "poppins", sans-serif;
         }
 
         .aboutus-content {
@@ -249,12 +253,15 @@ function AboutUs() {
         font-size: 35px;
         font-weight: bold;
         margin-bottom: 16px;
-        color: #9dffff;
+        background: linear-gradient(to right, #007BFF, #04fdbfff); /* Gradient color */
+        -webkit-background-clip: text; /* Clip the background to the text */
+        -webkit-text-fill-color: transparent; /* Make the text color transparent */
         text-align: center;
         }
         .section-text{
-          font-size: 14px;
-          font-weight: 700;}
+          font-size: 18px;
+          text-align: center;
+          }
         
 
         @keyframes fadeInUp {
@@ -378,9 +385,9 @@ function AboutUs() {
 
         .typewriter {
         white-space: pre-wrap;
-        text-align: justify;
+        text-align: center;
         line-height: 1.6;
-        font-family: 'Courier New', monospace;
+        font-family: "poppins", sans-serif;
         min-height: 140px;
         overflow: hidden;
         }
@@ -551,6 +558,15 @@ function AboutUs() {
             opacity: 1;
             transform: translateX(0) translateY(0);
           }
+
+          .footer-bottom {
+          text-align: center;
+          font-size: 16px;
+          font-weight: 700;
+          margin-top: 30px;
+          color: #aaa;
+          margin-bottom: 30px;
+        }
 
 
         @media (max-width: 768px) {

@@ -21,7 +21,7 @@ function Register() {
   const [loading, setLoading] = useState(false);
 
   const location = useLocation();
-  const psIdFromNav = location.state?.ps_id || "";
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({});
@@ -65,7 +65,8 @@ function Register() {
 
     const finalData = {
       ...formData,
-      ps_id: psIdFromNav,
+      projectDomain: formData.projectDomain,
+
       teamCount,
       paymentScreenshot: imageUrl,
     };
@@ -81,8 +82,8 @@ function Register() {
     const result = await response.json();
 
     if (!response.ok) {
-      alert(result.message || "Registration failed");
       setLoading(false);
+      alert(result.message || "Registration failed");
       return;
     }
 
@@ -91,6 +92,8 @@ function Register() {
   } catch (error) {
     console.error("Error registering:", error);
     alert("Something went wrong. Try again.");
+  } finally{
+     setLoading(false); 
   }
 };
 
@@ -139,8 +142,21 @@ function Register() {
               ))}
             </select>
 
-            <label>Problem Statement ID:</label>
-            <input type="text" value={psIdFromNav} readOnly required />
+            <label>Project Domain:</label>
+            <select name="projectDomain" onChange={handleChange} required>
+              <option value="">Select Domain</option>
+              <option>HealthTech & MedTech Devices</option>
+              <option>AgriTech Hardware Solutions</option>
+              <option>Renewable Energy & Sustainability</option>
+              <option>Smart Mobility & Transportation</option>
+              <option>IoT & Smart Devices for MSMEs</option>
+              <option>Assistive Technology & Inclusive Design</option>
+              <option>Disaster Management & Public Safety Devices</option>
+              <option>Education & Learning Tools</option>
+              <option>Home & Lifestyle Hardware Innovations</option>
+              <option>Other Emerging Hardware Products</option>
+            </select>
+
 
             <label>College:</label>
             <input type="text" name="college" onChange={handleChange} required />
@@ -184,7 +200,9 @@ function Register() {
             )}
 
             <h4>UPI Payment</h4>
+            <p className="payment-note">Note: ₹200 per head. Before making the payment, please ensure that you are correct.</p>
             <img src={qrImage} alt="UPI QR Code" className="qr-code" />
+
             <label>Upload Payment Screenshot:</label>
             <input type="file" accept="image/*" onChange={handleImageChange} required />
 
@@ -203,7 +221,7 @@ function Register() {
           background: linear-gradient(to bottom, #000, #1a273a);
           color: white;
           
-          font-family: 'Courier New', monospace;
+          font-family: "poppins", sans-serif;
           min-height: 100vh;
         }
         .register-contant{
@@ -215,7 +233,9 @@ function Register() {
         .form-title {
         text-align: center;
         font-size: 28px;
-        color: #9dffff;
+        cbackground: linear-gradient(to right, #007BFF, #04fdbfff); /* Gradient color */
+        -webkit-background-clip: text; /* Clip the background to the text */
+        -webkit-text-fill-color: transparent; /* Make the text color transparent */
         }
           
         .header-bar {
@@ -268,7 +288,7 @@ function Register() {
           padding: 12px;
           font-size: 16px;
           font-weight: bold;
-          background: rgb(141, 154, 255);
+          background: linear-gradient(to right, #007BFF, #04fdbfff);
           color: black;
           border: none;
           border-radius: 8px;
@@ -288,6 +308,12 @@ function Register() {
           
           border-radius: 20px;
         }
+        .payment-note {
+            font-size: 16px;
+           
+            text-align: center; /* Center the text */
+            margin-bottom: 10px; /* Space below the note */
+          }
 
         .preview {
           margin-top: 10px;

@@ -26,7 +26,7 @@ function Profile() {
         const data = await response.json();
         if (response.ok) {
           setUserData(data);
-          fetchProblemStatement(data.ps_id); // Fetch problem statement using new API
+          
         } else {
           alert(data.message || "Unable to fetch profile data");
         }
@@ -36,23 +36,8 @@ function Profile() {
       }
     };
 
-    const fetchProblemStatement = async (ps_id) => {
-      try {
-        const res = await fetch(`${BASE_URL}/getProblemStatementById`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ps_id })
-        });
-        const data = await res.json();
-        if (res.ok) {
-          setProblemStatement(data);
-        } else {
-          console.warn("⚠️ Problem statement not found:", data.error);
-        }
-      } catch (err) {
-        console.error("Error fetching problem statement:", err);
-      }
-    };
+   
+    
 
     fetchData();
   }, [userId]);
@@ -75,6 +60,7 @@ function Profile() {
             <div className="profile-card">
               <div className="card-header">
                 <div></div>
+                <div className="theme-id-tag">{userData.projectDomain}</div>
                 <div className="user-id-tag">{userData.userId}</div>
               </div>
 
@@ -109,47 +95,19 @@ function Profile() {
               )}
 
               <hr />
-              <h4>Payment Screenshot & Problem Statement</h4>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '30px' }}>
-                <img src={userData.paymentScreenshot} alt="Payment" className="payment-img flex-item" />
-                {problemStatement && (
-                <div className="problem-card flex-item">
-                    <div className="code-box">{problemStatement.ps_id}</div>
-
-                    <h3 className="title">{problemStatement.ps_title}</h3>
-
-                    <div className="text-section">
-                    <p>
-                        <strong style={{ fontSize: "15px", color: "white" }}>Objective:</strong> {problemStatement.objective}
-                    </p>
-                    <p>
-                        <strong style={{ fontSize: "15px", color: "white" }}>Background:</strong> {problemStatement.background}
-                    </p>
-                    </div>
-
-                    <div className="top-row">
-                    <div className="industry-box">
-                        <img src={problemStatement.industry_logo} alt="Industry Logo" className="industry-logo" />
-                        <p className="industry-text">{problemStatement.industry_name}</p>
-                    </div>
-                    <div className="sdg-icons">
-                        <img src={problemStatement.sdg1} alt="SDG Goal 1" />
-                        <img src={problemStatement.sdg2} alt="SDG Goal 2" />
-                    </div>
-                    </div>
-                </div>
-                )}
-
-              </div>
+              
             </div>
           )}
         </div>
       </div>
       <style>{`
+      body {
+          overscroll-behavior: none;
+        }
         .profile-container {
           background: linear-gradient(to bottom, #000, #1a273a);
           color: white;
-          font-family: 'Courier New', monospace;
+          font-family: "poppins", sans-serif;
           min-height: 100vh;
         }
 
@@ -169,7 +127,9 @@ function Profile() {
 
         .form-title {
           font-size: 32px;
-          color: #9dffff;
+          background: linear-gradient(to right, #007BFF, #04fdbfff); /* Gradient color */
+        -webkit-background-clip: text; /* Clip the background to the text */
+        -webkit-text-fill-color: transparent; /* Make the text color transparent */
         }
 
         .back-icon {
@@ -208,14 +168,24 @@ function Profile() {
           font-size: 14px;
           font-weight: bold;
         }
+        .theme-id-tag {
+          align-self: flex-start;
+          margin-right: auto; /* Pushes it to the far left */
+          border: 1px solid #fff;
+          color: #fff;
+          padding: 4px 12px;
+          border-radius: 20px;
+          font-size: 14px;
+          font-weight: bold;
+        }
 
         .team-name {
           text-align: center;
-          font-size: 26px;
+          font-size: 30px;
           font-weight: bold;
           color: #f6b73c;
           margin-top: 10px;
-          margin-bottom: 20px;
+          margin-bottom: 10px;
         }
 
         .profile-card h4 {
@@ -230,9 +200,7 @@ function Profile() {
           border-left: 2px solid #31cece80;
         }
 
-        .field-block {
-          margin-bottom: 12px;
-        }
+        
 
         .member-block {
           margin-top: 15px;
@@ -281,7 +249,7 @@ function Profile() {
           .section {
             display: flex;
             justify-content: space-between;
-            gap: 30px;
+            gap: 20px;
             flex-wrap: wrap;
           }
 
@@ -385,7 +353,7 @@ function Profile() {
           }
 
           .team-name {
-            font-size: 22px;
+            font-size: 25px;
           }
         }
       `}</style>

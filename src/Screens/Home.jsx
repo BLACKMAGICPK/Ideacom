@@ -1,68 +1,42 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Header from "../Components/Header";
-import glitchLogo from "../images/INNOTHON-25-glitch.png";
+import glitchLogo from "../images/ideacom_final.jpg";
+import { FaInstagram, FaLinkedin } from "react-icons/fa";
 
 // Import icons
 import { FaLightbulb, FaCheckCircle, FaLeaf, FaClipboardList, FaBrain, FaTasks, FaProjectDiagram } from "react-icons/fa";
 import { FaRupeeSign, FaUsers, FaClock, FaClipboard } from "react-icons/fa";
 import { FaPhoneAlt } from "react-icons/fa";
 
-import winner1 from "../images/Innothon'24_winner/winner1.jpg";
-import winner2 from "../images/Innothon'24_winner/winner2.jpg";
-import winner3 from "../images/Innothon'24_winner/winner3.jpg";
-import winner4 from "../images/Innothon'24_winner/winner4.jpg";
-import winner5 from "../images/Innothon'24_winner/winner5.jpg";
-import winner6 from "../images/Innothon'24_winner/winner6.jpg";
-import winner7 from "../images/Innothon'24_winner/winner7.jpg";
-import winner8 from "../images/Innothon'24_winner/winner8.jpg";
-import winner9 from "../images/Innothon'24_winner/winner9.jpg";
-import winner10 from "../images/Innothon'24_winner/winner10.jpg";
-import winner11 from "../images/Innothon'24_winner/winner11.jpg";
-import winner12 from "../images/Innothon'24_winner/winner12.jpg";
-import winner13 from "../images/Innothon'24_winner/winner13.jpg";
-import winner14 from "../images/Innothon'24_winner/winner14.jpg";
-import winner15 from "../images/Innothon'24_winner/winner15.jpg";
 
-import kcgLogo from "../images/kcg-logo.jpeg";
-import cseLogo from "../images/cse-logo.jpg";
+import collaborationImage from "../images/colaberation.png";
+import poweredByImage1 from "../images/poweredby-2.png";
+
 
 function Home() {
-
-  const winnerImages = [winner1, winner2, winner3, winner4, winner5, winner6, winner7, winner8, winner9, winner10, winner11, winner12, winner13, winner14, winner15];
-  const [currentIndex, setCurrentIndex] = useState(0);
-
 
 
       const innotext = `< INNOCOM is our platform for students to incubate and express their talents. It fosters entrepreneurship and innovation, guiding students towards a successful and independent future. Our club aims to elevate the standards of our students, creating achievers and trendsetters in the field of computer science. />`;
 
       const innothonText = `< INNOTHON 25 is a 30-hour hackathon where students are challenged to develop innovative solutions to real-world problems. Problem statements of INNOTHON 25 are provided by our industry partners, giving students the opportunity to tackle genuine challenges faced by industries today. />`;
 
-      const [typedText, setTypedText] = useState('');
-      const [charIndex, setCharIndex] = useState(0);
+     
 
-      const [typedInno25, setTypedInno25] = useState('');
-      const [charIndex25, setCharIndex25] = useState(0);
+      const [loading, setLoading] = useState(false);
 
-      useEffect(() => {
-        if (charIndex < innotext.length) {
-          const timeout = setTimeout(() => {
-            setTypedText((prev) => prev + innotext[charIndex]);
-            setCharIndex((prev) => prev + 1);
-          }, 5);
-          return () => clearTimeout(timeout);
-        }
-      }, [charIndex]);
 
-      useEffect(() => {
-        if (charIndex >= innotext.length && charIndex25 < innothonText.length) {
-          const timeout = setTimeout(() => {
-            setTypedInno25((prev) => prev + innothonText[charIndex25]);
-            setCharIndex25((prev) => prev + 1);
-          }, 5);
-          return () => clearTimeout(timeout);
-        }
-      }, [charIndex25, charIndex]);
+
+      const [helpForm, setHelpForm] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+
+      
+
 
       useEffect(() => {
         const sections = document.querySelectorAll('.section');
@@ -89,17 +63,8 @@ function Home() {
       }, []);
 
 
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? winnerImages.length - 1 : prevIndex - 1
-    );
-  };
+ 
 
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === winnerImages.length - 1 ? 0 : prevIndex + 1
-    );
-  };
 
   const criteria = [
     { name: "Solution", icon: <FaLightbulb /> },
@@ -111,47 +76,116 @@ function Home() {
     { name: "Business Model", icon: <FaProjectDiagram /> },
   ];
 
+    const handleInputChange = (e) => {
+    setHelpForm({ ...helpForm, [e.target.name]: e.target.value });
+  };
+
+  const handleHelpSubmit = async (e) => {
+      e.preventDefault();
+      setLoading(true);
+
+      const { firstName, lastName, email, phone, message } = helpForm;
+
+      if (!firstName || !lastName || !email || !phone || !message) {
+        return alert("Please fill all fields.");
+      }
+
+      try {
+        const res = await fetch("http://localhost:5000/submit-help", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(helpForm),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+           setLoading(false); 
+          alert("Query submitted successfully!");
+          setHelpForm({ firstName: "", lastName: "", email: "", phone: "", message: "" });
+        } else {
+          alert(data.message);
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Something went wrong!");
+      }finally {
+    setLoading(false); // Always stop spinner
+  }
+    };
+
   return (
     <>
       <div className="home-container">
-        <Header />
+        <Header />  
         <main className="home-content">
-          <h2 className="tagline">&lt; A National Level Tech Hackathon /&gt;</h2>
-          <img src={glitchLogo} alt="INNOTHON'25 Glitch Logo" className="glitch-logo" />
-          <h2 className="tagline" >&lt; Department Of Computer Science & engineering /&gt;</h2>
+          
+          <img src={glitchLogo}  alt="INNOTHON'25 Glitch Logo" className="glitch-logo" />
+        
 
+          {/* IDEACOM  Section */}
+          <section className="section">
+          
+            <p className="section-text">
+              An ideathon by KCG College of Technology in association with Anna University and CED, helping students turn ideas into fundable products. Shortlisted teams not only receive support but also get direct entry to the finals of "Startify" by Startup TN, bypassing prelims. Winners stand a chance to receive funding of up to ₹4 lakhs per team.
+           </p>
+
+
+
+          </section>
+          
           {/* INNOCOM Section */}
           <section className="section">
             <h3 className="section-title">INNOCOM</h3>
-           <p className="section-text typewriter">
-              {typedText}
-              <span className="cursor" />
-            </p>
+           <p className="section-text">
+             INNOCOM is our platform for students to incubate and express their talents. It fosters entrepreneurship and innovation, guiding students towards a successful and independent future. Our club aims to elevate the standards of our students, creating achievers and trendsetters in the field of computer science. 
+          </p>
 
-          </section>
-
-          {/* INNOTHON 25 Section */}
-          <section className="section">
-            <h3 className="section-title">INNOTHON 25</h3>
-            <p className="section-text typewriter">
-              {typedInno25}
-              <span className="cursor" />
-            </p>
-
-          </section>
-
-          {/* Evaluation Criteria Section */}
-          <section className="section eval-section">
-            <h3 className="section-title">Evaluation Criteria</h3>
-            <div className="eval-criteria">
-              {criteria.map((item, index) => (
-                <div className="criteria-item" key={index}>
-                  <div className="icon">{item.icon}</div>
-                  <span>{item.name}</span>
-                </div>
-              ))}
+          {/* Collaboration Section */}
+          <section className="section collaboration-section">
+            <div className="collaboration-border">
+              <div className="collaboration-image-container">
+                <img src={collaborationImage} alt="Collaboration between KCG College of Technology and Anna University" className="collaboration-image" />
+              </div>
+              <p className="collaboration-text">
+                KCG College of Technology collaborates with Anna University to enhance the educational experience and provide students with opportunities for growth and innovation.
+              </p>
             </div>
           </section>
+
+
+
+
+
+          </section>
+          {/* Norms Section */}
+          <section className="section norms-section">
+            <h3 className="section-title">Norms</h3>
+            <ul className="norms-list">
+              <li>All the registered teams will be eligible to attend an <strong className="highlight" >ONLINE BOOTCAMP</strong> by Startify, Startup TN assisting you on the development of your ideas and project.</li>
+              <li>It is necessary for all registered teams to attend the <strong  className="highlight">ONLINE BOOTCAMP</strong>.</li>
+              <li>Shortlisted teams will directly be considered for the FINAL ROUND of Startify, where your projects will be funded up to <strong  className="highlight">₹4 lakhs</strong>.</li>
+              <li>Enrollment Fee <strong  className="highlight">Rs. 200/-</strong> per team & Teams must consist of a maximum of 3 members only.</li>
+            </ul>
+          </section>
+
+
+
+          
+
+          {/* Powered By Section */}
+        <section className="section powered-by-section">
+          <div className="powered-by-border">
+            <h3 className="section-title">Powered By</h3>
+            <div className="powered-by-logos">
+              <div className="powered-by-item">
+                <img src={poweredByImage1} alt="Powered by Image 1" className="powered-by-image" />
+              </div>
+            </div>
+          </div>
+        </section>
 
       {/* Timeline Section */}
       <section className="section timeline-section">
@@ -161,69 +195,43 @@ function Home() {
             <div className="timeline-icon" />
             <div className="timeline-content">
               <h4 className="timeline-title">Registration Starts</h4>
-              <p className="timeline-date">7th July 2025</p>
-              <p>Registration starts And Problem statement Release.</p>
+              <p className="timeline-date">23th July 2025</p>
+              <p>Registration starts.</p>
             </div>
           </div>
           <div className="timeline-item">
             <div className="timeline-icon" />
             <div className="timeline-content">
               <h4 className="timeline-title">Registration Ends</h4>
-              <p className="timeline-date">5th Aug 2025</p>
-              <p>Registeration Closes </p>
+              <p className="timeline-date">2nd Aug 2025</p>
+              <p>Registeration Closes. </p>
             </div>
           </div>
           <div className="timeline-item">
             <div className="timeline-icon" />
             <div className="timeline-content">
-              <h4 className="timeline-title">Prelims</h4>
-              <p className="timeline-date">8th - 9th Aug 2025</p>
-              <p>Idea submission and PPT Presentation <br />Mode: Online.</p>
+              <h4 className="timeline-title">BootCamp</h4>
+              <p className="timeline-date">27th july - 7th Aug 2025</p>
+              <p> BOOTCAMP<br />Mode: Online.</p>
             </div>
           </div>
           <div className="timeline-item">
             <div className="timeline-icon timeline-icon-final" />
             <div className="timeline-content">
               <h4 className="timeline-title">Grand Finale</h4>
-              <p className="timeline-date">22th - 23st Aug 2025</p>
-              <p>PPT Presentation and Business Model.<br />Prototype 100%.<br />Mode: Offline.</p>
+              <p className="timeline-date">9th Aug 2025</p>
+              <p>PPT Presentation and Business Model.<br />Mode: Offline.</p>
             </div>
           </div>
         </div>
         
-      </section>
-      {/* Winner Carousel Section */}
-      <section className="section carousel-section">
-        <h3 className="section-title">Glimpses of Innothon'24</h3>
-        <div className="carousel-container">
-          <button className="carousel-btn left" onClick={prevSlide}>&lt;</button>
-          <img src={winnerImages[currentIndex]} alt="Winner" className="carousel-image" />
-          <button className="carousel-btn right" onClick={nextSlide}>&gt;</button>
-        </div>
+      
 
-        {/* Dots Navigation */}
-        <div className="carousel-dots">
-          {winnerImages.map((_, index) => (
-            <span
-              key={index}
-              className={`dot ${currentIndex === index ? "active" : ""}`}
-              onClick={() => setCurrentIndex(index)}
-            ></span>
-          ))}
-        </div>
       </section>
 
       <section>    
           <div className="footer-container">
-            <div className="footer-section">
-              <h3>Note</h3>
-              <ul>
-                <li><FaRupeeSign className="note-icon" /><div>Enrollment Fee Rs.200/- per Participant<br />Rs.700/- per person for the finalists</div></li>
-                <li><FaUsers className="note-icon" /><div>Team must consist of maximum 3 members only</div></li>
-                <li><FaClock className="note-icon" /><div>30 hour hackathon</div></li>
-                <li><FaClipboard className="note-icon" /><div>Participants are expected to develop a prototype for the chosen problem statement.</div></li>
-              </ul>
-            </div>
+            
             
             <div className="footer-section">
               <h3>Contact Us</h3>
@@ -235,48 +243,83 @@ function Home() {
               </ul>
             </div>
             
-            <div className="footer-section powered-section">
-              <h3>Powered by</h3>
-              <div className="powered-logos">
-                <div className="powered-item">
-                  <img src={kcgLogo} alt="KCG College of Technology" />
-                  <p>KCG College of Technology</p>
-                </div>
-                <div className="powered-item">
-                  <img src={cseLogo} alt="CSE Department" />
-                  <p>Department of Computer Science & Engineering</p>
-                </div>
-              </div>
-            </div>
+            
           </div>
       </section>
       <section className="help-section">
         <h3 className="section-title">Need Help?</h3>
         <p className="help-desc">For any issues or questions, feel free to reach out to us using the form below.</p>
         <div className="help-form-container">
-          <form className="help-form">
+          <form className="help-form" onSubmit={handleHelpSubmit}>
             <div className="form-row">
-              <input type="text" placeholder="First Name" required />
-              <input type="text" placeholder="Last Name" required />
+              <input
+                type="text"
+                name="firstName"
+                placeholder="First Name"
+                value={helpForm.firstName}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="text"
+                name="lastName"
+                placeholder="Last Name"
+                value={helpForm.lastName}
+                onChange={handleInputChange}
+                required
+              />
             </div>
             <div className="form-row">
-              <input type="email" placeholder="Email ID" required />
-              <input type="tel" placeholder="Phone Number" required />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email ID"
+                value={helpForm.email}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Phone Number"
+                value={helpForm.phone}
+                onChange={handleInputChange}
+                required
+              />
             </div>
             <div className="form-row full-width">
-              <textarea placeholder="Describe your issue or question..." rows="4" required></textarea>
+              <textarea
+                name="message"
+                placeholder="Describe your issue or question..."
+                rows="4"
+                value={helpForm.message}
+                onChange={handleInputChange}
+                required
+              />
             </div>
-            <button type="submit" className="submit-btn">Submit</button>
+            <button type="submit" disabled={loading} className="submit-btn">
+              {loading && <span className="spinner" />} {loading ? "Submitting..." : "Submit"}
+            </button>
+
           </form>
+
         </div>
       </section>
 
 
       <section>
 
-        <div className="footer-bottom">
-          © Developed by Team - LogicLoopers
-        </div>
+
+          <div className="footer-bottom" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
+            <span>© Developed by Team - LogicLoopers</span>
+            <a href="https://www.instagram.com/logicloopersofficial/" target="_blank" rel="noopener noreferrer">
+              <FaInstagram style={{ color: '#ccc', fontSize: '1.5rem' }} />
+            </a>
+            <a href="https://www.linkedin.com/company/logic-loopers/" target="_blank" rel="noopener noreferrer">
+              <FaLinkedin style={{ color: '#ccc', fontSize: '1.5rem' }} />
+            </a>
+          </div>
+
 
       </section>
       </main>
@@ -297,7 +340,7 @@ function Home() {
           min-height: 100vh;
           background: linear-gradient(to bottom, #000, #0c172d);
           color: white;
-          font-family: 'Courier New', monospace;
+          font-family: "poppins", sans-serif;
         }
 
         .home-content {
@@ -334,58 +377,27 @@ function Home() {
 
 
         .section-title {
-          font-size: 35px;
-          font-weight: bold;
-          margin-bottom: 10px;
-          color: #9dffff;
-          margin-top: 10px;
-        }
+        font-size: 35px;
+        margin-bottom: 10px;
+        background: linear-gradient(to right, #007BFF, #04fdbfff); /* Gradient color */
+        -webkit-background-clip: text; /* Clip the background to the text */
+        -webkit-text-fill-color: transparent; /* Make the text color transparent */
+        margin-top: 10px;
+      }
 
         .section-text {
           display: block;
           white-space: normal;
           animation: none;
-          text-align: justify;
+          text-align: center;
           line-height: 1.6;
-          font-weight: 700;
+          margin-bottom: 50px;
+          font-size: 18px;
+         
         }
 
 
-        .eval-criteria {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 16px;
-          margin-top: 20px;
-        }
-
-        .criteria-item {
-          border: 2px solid;
-          padding: 16px 24px;
-          border-radius: 50px;
-          font-size: 14px;
-          font-weight: 700;
-          background-color: #ffffff0a;
-          transition: background 0.3s;
-          width: 150px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          color: #fff;
-        }
-
-        .criteria-item:hover {
-          background-color: #31cece;
-        }
-
-        .icon {
-          font-size: 24px;
-          margin-bottom: 8px;
-          color:rgb(229, 243, 82);
-        }
-        .timeline-section {
-          margin-top: 50px;
-        }
+       
 
         .timeline {
             display: flex;
@@ -400,7 +412,7 @@ function Home() {
             position: absolute;
             left: 6px;
             top: 30px;
-            bottom: 130px; /* This makes it stop at the last item */
+            bottom: 120px; /* This makes it stop at the last item */
             width: 2px;
             background-color: white;
           }
@@ -433,13 +445,13 @@ function Home() {
           padding-left: 10px;
           color: #eee;
           text-align: left;
-          font-weight: 700;
+          
         }
 
         .timeline-title {
           font-size: 18px;
           font-weight: bold;
-          color: #ffb700;
+          color: #ff9c00;
           margin-bottom: 4px;
         }
 
@@ -447,7 +459,7 @@ function Home() {
           font-size: 14px;
           color: #aaa;
           margin-bottom: 4px;
-          font-weight: 700;
+          
         }
 
         .carousel-section {
@@ -542,6 +554,9 @@ function Home() {
         .footer-section h3 {
           font-size: 24px;
           color: #ffffff;
+          background: linear-gradient(to right, #007BFF, #04fdbfff); /* Gradient color */
+        -webkit-background-clip: text; /* Clip the background to the text */
+        -webkit-text-fill-color: transparent; /* Make the text color transparent */
           margin-bottom: 16px;
           text-align: left;
         }
@@ -557,7 +572,7 @@ function Home() {
           gap: 10px;
           margin-bottom: 16px;
           font-size: 15px;
-          font-weight: 700;
+          
           line-height: 1.6;
           text-align: left;
           color: #ccc;
@@ -575,7 +590,7 @@ function Home() {
         .footer-section a {
           color: #ff9c00;
           text-decoration: none;
-          font-weight: 600;
+          
         }
 
         .footer-section a:hover {
@@ -583,9 +598,9 @@ function Home() {
         }
         .footer-bottom {
           text-align: center;
-          font-size: 14px;
-          font-weight: 700;
-          margin-top: 20px;
+          font-size: 16px;
+          
+          margin-top: 30px;
           color: #aaa;
         }
 
@@ -594,6 +609,15 @@ function Home() {
           flex-direction: column;
           align-items: flex-start;
         }
+          .powered-by-border {
+          border: 2px solid #31cece; /* Border color */
+          border-radius: 25px; /* Rounded corners */
+          padding: 20px; /* Padding inside the border */
+          margin: 20px 0; /* Margin around the section */
+          background-color:rgba(25, 60, 100, 0.1); /* Optional: background color */
+          margin-bottom: 50px; /* Space below the section */
+        }
+
 
         .powered-logos {
           display: flex;
@@ -608,8 +632,8 @@ function Home() {
         }
 
         .powered-item img {
-          width: 90px;
-          height: 90px;
+          width: 150px;
+          height: 150px;
           object-fit: contain;
           
           padding: 4px;
@@ -618,7 +642,7 @@ function Home() {
 
         .powered-item p {
           font-size: 15px;
-          font-weight: 700;
+          
           color: #ccc;
           text-align: left;   /* FIX */
           margin: 0;          /* Optional: remove default spacing */
@@ -697,7 +721,7 @@ function Home() {
 
         .submit-btn {
           padding: 12px;
-          background-color: #31cece;
+          background: linear-gradient(to right, #007BFF, #04fdbfff);
           border: none;
           border-radius: 8px;
           color: #000;
@@ -729,6 +753,81 @@ function Home() {
           }
        }
 
+       .spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid #fff;
+        border-top: 2px solid transparent;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+        display: inline-block;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+        .norms-list {
+        list-style-type: disc;
+        padding-left: 20px;
+        text-align: left;
+        font-size: 18px;
+        margin-bottom: 50px;
+        line-height: 1.4;
+      }
+
+      .norms-list li {
+        margin-bottom: 15px; /* Add space between each point */
+      }
+        .highlight {
+        color: #ff9c00  ; /* Highlight color */
+      }
+
+        .collaboration-image-container {
+          display: flex;
+          justify-content: center;
+          margin: 20px 0;
+        }
+
+        .collaboration-image {
+          max-width: 100%;
+          height: auto;
+          border-radius: 8px; /* Optional: add some rounding to the image */
+        }
+
+        .collaboration-text {
+          text-align: center;
+          margin-bottom: 50px;
+          font-size: 18px; /* Adjust font size as needed */
+          
+        }
+          .collaboration-border {
+            border: 2px solid #31cece; /* Border color */
+            border-radius: 25px; /* Rounded corners */
+            padding: 20px; /* Padding inside the border */
+            margin: 20px 0; /* Margin around the section */
+            background-color: rgba(25, 60, 100, 0.1); /* Optional: background color */
+            margin-bottom: 50px; /* Space below the section */
+          }
+
+        .powered-by-logos {
+          display: flex;
+          justify-content: center;
+          gap: 20px; /* Adjust spacing between images */
+          margin: 20px 0;
+        }
+
+        .powered-by-image {
+          max-width: 90%;
+          height: auto;
+          border-radius: 8px; /* Optional: add some rounding to the images */
+        }
+
+
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+
           
 
         @media (max-width: 768px) {
@@ -742,7 +841,7 @@ function Home() {
 
           .section-text {
             font-size: 14px;
-            font-weight: 700;
+           
           }
           .typewriter {
             min-height: 170px;

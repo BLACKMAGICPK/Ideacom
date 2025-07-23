@@ -12,6 +12,7 @@ function ResetPassword() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleReset = async () => {
     if (!newPassword || !confirmPassword)
@@ -20,6 +21,7 @@ function ResetPassword() {
     if (newPassword !== confirmPassword)
       return alert("Passwords do not match");
 
+    setLoading(true); 
     try {
       const res = await fetch(`${BASE_URL}/reset-password`, {
         method: "POST",
@@ -30,13 +32,15 @@ function ResetPassword() {
       });
 
       const data = await res.json();
-      if (!res.ok) return alert(data.message);
+      if (!res.ok)  { setLoading(false);  return alert(data.message); }
 
       alert("Password updated successfully!");
       navigate("/"); // Go back to login
     } catch (err) {
       console.error("Reset error:", err);
       alert("Something went wrong. Try again.");
+    } finally{
+       setLoading(false); 
     }
   };
 
@@ -69,16 +73,21 @@ function ResetPassword() {
               </span>
             </div>
 
-            <button onClick={handleReset}>Update Password</button>
+            <button type="submit" onClick={handleReset} disabled={loading}>
+            {loading && <span className="spinner" />} {loading ? "Updating Password..." : "Update Password"}
+            </button>
           </div>
         </div>
       </div>
 
       <style>{`
+      body {
+          overscroll-behavior: none;
+        }
         .reset-container {
           background: linear-gradient(to bottom, #000, #1a273a);
           color: white;
-          font-family: 'Courier New', monospace;
+          font-family: "poppins", sans-serif;
           min-height: 100vh;
         }
 
@@ -91,7 +100,9 @@ function ResetPassword() {
         .form-title {
           text-align: center;
           font-size: 28px;
-          color: #9dffff;
+          background: linear-gradient(to right, #007BFF, #04fdbfff); /* Gradient color */
+        -webkit-background-clip: text; /* Clip the background to the text */
+        -webkit-text-fill-color: transparent; /* Make the text color transparent */
           margin-bottom: 20px;
         }
 
@@ -129,7 +140,7 @@ function ResetPassword() {
           padding: 12px;
           font-size: 16px;
           font-weight: bold;
-          background: rgb(141, 154, 255);
+          background: linear-gradient(to right, #007BFF, #04fdbfff);
           color: white;
           border: none;
           border-radius: 8px;
