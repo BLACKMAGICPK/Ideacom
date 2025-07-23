@@ -124,22 +124,26 @@ async function startServer() {
 
     
     // 🔧 Generate Unique User ID
-    async function generateUserId(problemId) {
-        const db = client.db("Registered_User");
-        const collection = db.collection("user_details");
-        
-        const prefix = `US/${problemId}/25`;
-        const users = await collection.find({ userId: { $regex: `^${prefix}` } }).toArray();
-        
-        const numbers = users
-        .map((u) => parseInt(u.userId?.split("/")?.[2]?.slice(2))) // extract '001', '002' etc
+   async function generateUserId() {
+  const db = client.db("Registered_User");
+  const collection = db.collection("user_details");
+
+  const prefix = "IC25";
+
+  // Find all userIds starting with "us25"
+  const users = await collection.find({ userId: { $regex: `^${prefix}` } }).toArray();
+
+  // Extract the numeric part after "us25", e.g. from "us25001" get 001
+  const numbers = users
+    .map((u) => parseInt(u.userId?.slice(4))) // slice(4) removes "us25"
     .filter((num) => !isNaN(num));
 
-    let maxNumber = numbers.length ? Math.max(...numbers) : 0;
-    const nextNumber = String(maxNumber + 1).padStart(3, "0");
-    
-    return `${prefix}${nextNumber}`;
+  let maxNumber = numbers.length ? Math.max(...numbers) : 0;
+  const nextNumber = String(maxNumber + 1).padStart(3, "0");
+
+  return `${prefix}${nextNumber}`; // e.g., us25004
 }
+
 
 app.post("/register", async (req, res) => {
   try {
@@ -156,7 +160,7 @@ app.post("/register", async (req, res) => {
       state,
       college,
       department,
-      ps_id,
+      projectDomain,
       teamCount,
       paymentScreenshot,
       member1Name,
@@ -182,7 +186,7 @@ app.post("/register", async (req, res) => {
       return res.status(409).json({ message: "This email is already registered" });
     }
 
-    const userId = await generateUserId(ps_id);
+    const userId = await generateUserId();
 
     const teamMembers = [];
     if (teamCount >= 2) {
@@ -215,7 +219,7 @@ app.post("/register", async (req, res) => {
       },
       password, // Consider hashing
       state,
-      ps_id,
+      projectDomain,
       teamCount,
       teamMembers,
       paymentScreenshot,
@@ -396,20 +400,35 @@ app.post("/send-otp", async (req, res) => {
   });
 
   const mailOptions = {
-    from: "noreply@example.com",
+    from: '"Innocom Support Team" <innothon25@gmail.com>',
     to: email,
-    subject: "Your OTP Code",
-    text: `Your OTP is: ${otp}. It will expire in 5 minutes.`,
+    subject: "OTP for Ideacom Reset Password",
+    html: `
+      <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+        <h2>Dear User,</h2>
+        <p>We received a request to reset the password for your <strong>Ideacom</strong> website account.</p>
+        <p>Your One-Time Password (OTP) is:</p>
+        <div style="text-align: center; margin: 20px 0;">
+          <span style="font-size: 32px; font-weight: bold; color: #2d89ef;">${otp}</span>
+        </div>
+        <p><strong>Note:</strong> This OTP is valid for <strong>5 minutes only</strong>.</p>
+        <p>If you did <strong>not</strong> request a password reset, you can safely ignore this email. No changes will be made to your account.</p>
+        <br>
+        <p>Thank you for being a part of Ideacom!</p>
+        <p style="margin-top: 30px;">– Innocom Support Team</p>
+      </div>
+    `,
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    res.send({ message: "OTP sent successfully" });
-  } catch (err) {
-    console.error("Error sending OTP:", err);
+    res.status(200).send({ message: "OTP sent successfully", otp }); // Optional: Don't send OTP in production
+  } catch (error) {
+    console.error("Error sending email:", error);
     res.status(500).send({ message: "Failed to send OTP" });
   }
 });
+
 
 app.post("/verify-otp", (req, res) => {
   const { email, otp } = req.body;
@@ -463,6 +482,33 @@ app.post("/reset-password", async (req, res) => {
   } catch (error) {
     console.error("❌ Reset password error:", error);
     res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.post("/submit-help", async (req, res) => {
+  const { firstName, lastName, email, phone, message } = req.body;
+
+  if (!firstName || !lastName || !email || !phone || !message) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
+
+  try {
+    const db = client.db("Queries");
+    const collection = db.collection("user_queries");
+
+    await collection.insertOne({
+      firstName,
+      lastName,
+      email,
+      phone,
+      message,
+      submittedAt: new Date(),
+    });
+
+    res.status(200).json({ message: "Help query submitted successfully!" });
+  } catch (err) {
+    console.error("Error submitting query:", err);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
