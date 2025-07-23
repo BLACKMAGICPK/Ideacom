@@ -130,7 +130,7 @@ function Header() {
 
           .nav-links a {
             margin-left: 5px;
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 700;
           }
 
