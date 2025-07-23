@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import innocomLogo from "../images/innocom.jpg";
-import kcgLogo from "../images/kcg-logo-new.jpg";      // Add KCG logo
-import cseLogo from "../images/cse-logo.jpg";      // Add CSE logo
-import profilePic from "../images/modern-avatar.jpg";
+import kcgLogo from "../images/kcg-logo-new.jpg";
+import cseLogo from "../images/cse-logo.jpg";
 
 function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <>
       {/* Google Fonts import */}
@@ -18,8 +19,9 @@ function Header() {
           <img src={kcgLogo} alt="KCG Logo" className="logo" />
           <img src={cseLogo} alt="CSE Logo" className="logo" />
           <img src={innocomLogo} alt="Innocom Logo" className="logo" />
-          
         </div>
+
+        {/* Desktop Navigation */}
         <nav className="nav-links">
           <a href="/">Home</a>
           <a href="/domains">Domains</a>
@@ -28,6 +30,23 @@ function Header() {
             <img src={innocomLogo} alt="Profile" className="profile-icon" />
           </a>
         </nav>
+
+        {/* Hamburger Menu (Mobile Only) */}
+        <div className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+          ☰
+        </div>
+
+        {/* Popup Menu */}
+        {menuOpen && (
+          <div className="popup-menu">
+            <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
+            <a href="/domains" onClick={() => setMenuOpen(false)}>Domains</a>
+            <a href="/about-us" onClick={() => setMenuOpen(false)}>About</a>
+            <a href="/login" onClick={() => setMenuOpen(false)}>
+              <img src={innocomLogo} alt="Profile" className="profile-icon" />
+            </a>
+          </div>
+        )}
       </header>
 
       <style>{`
@@ -39,7 +58,7 @@ function Header() {
           align-items: center;
           justify-content: space-between;
           font-family: "poppins", sans-serif;
-          flex-wrap: nowrap;
+          position: relative;
         }
 
         .logo-section {
@@ -55,21 +74,13 @@ function Header() {
           object-fit: cover;
         }
 
-        .brand-name {
-          font-size: 28px;
-          font-weight: 700;
-          color: white;
-          font-family: "poppins", sans-serif;
-        }
-
         .nav-links {
           display: flex;
           align-items: center;
-          flex-wrap: nowrap;
           font-family: "poppins", sans-serif;
-           background: linear-gradient(to right, #007BFF, #04fdbfff); /* Gradient color */
-        -webkit-background-clip: text; /* Clip the background to the text */
-        -webkit-text-fill-color: transparent; /* Make the text color transparent */
+          background: linear-gradient(to right, #007BFF, #04fdbfff);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
 
         .nav-links a {
@@ -93,45 +104,55 @@ function Header() {
           border: 1px solid #fff;
         }
 
-        @media (max-width: 768px) {
-          .logo {
-            height: 30px;
-            width: auto;
-          }
-
-          .brand-name {
-            font-size: 18px;
-          }
-
-          .nav-links a {
-            margin-left: 10px;
-            font-size: 14px;
-          }
-
-          .profile-icon {
-            width: 26px;
-            height: 26px;
-          }
-
-          .header {
-            padding: 8px 12px;
-          }
+        .menu-toggle {
+          display: none;
+          font-size: 28px;
+          cursor: pointer;
         }
 
-        @media (max-width: 480px) {
+        .popup-menu {
+          position: absolute;
+          top: 70px;
+          right: 16px;
+          background: #111;
+          border: 1px solid #555;
+          padding: 10px 20px;
+          border-radius: 8px;
+          display: flex;
+          flex-direction: column;
+          z-index: 10;
+        }
+
+        .popup-menu a {
+          color: white;
+          text-decoration: none;
+          padding: 8px 0;
+          font-size: 18px;
+          font-weight: 600;
+        }
+
+        .popup-menu a:hover {
+          color: #00ffff;
+        }
+
+        .popup-menu .profile-icon {
+          width: 30px;
+          height: 30px;
+          margin-top: 8px;
+        }
+
+        @media (max-width: 768px) {
+          .nav-links {
+            display: none;
+          }
+
+          .menu-toggle {
+            display: block;
+            color: white;
+          }
+
           .logo {
-            height: 28px;
-            width: auto;
-          }
-
-          .brand-name {
-            font-size: 16px;
-          }
-
-          .nav-links a {
-            margin-left: 5px;
-            font-size: 13px;
-            font-weight: 700;
+            height: 30px;
           }
 
           .profile-icon {
@@ -140,7 +161,7 @@ function Header() {
           }
 
           .header {
-            padding: 10px 10px;
+            padding: 12px;
           }
         }
       `}</style>
