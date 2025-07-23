@@ -179,7 +179,7 @@ function Header() {
           }
 
           .logo {
-            height: 30px;
+            height: 38px;
           }
 
           .profile-icon {
