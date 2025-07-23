@@ -347,6 +347,7 @@ function Profile() {
             max-width: 100%;
           }
 
+
           .card-header {
             flex-direction: row;
             justify-content: space-between;
@@ -355,6 +356,13 @@ function Profile() {
           .team-name {
             font-size: 25px;
           }
+            .theme-id-tag {
+          
+          font-size: 12px;
+          
+        }
+          .user-id-tag {
+          font-size: 12px;
         }
       `}</style>
     </>

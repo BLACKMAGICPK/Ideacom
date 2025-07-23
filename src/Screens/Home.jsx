@@ -129,7 +129,7 @@ function Home() {
           <section className="section">
           
             <p className="section-text">
-              An ideathon by KCG College of Technology in association with Anna University and CED, helping students turn ideas into fundable products. Shortlisted teams not only receive support but also get direct entry to the finals of "Startify" by Startup TN, bypassing prelims. Winners stand a chance to receive funding of up to ₹4 lakhs per team.
+              An ideathon by KCG College of Technology in association with Anna University and CED, helping students turn ideas into fundable products. Shortlisted teams not only receive support but also get direct entry to the finals of "Startify" by Startup TN, bypassing prelims. Winners stand a chance to receive funding of up to ₹3 lakhs per team.
            </p>
 
 
@@ -166,7 +166,7 @@ function Home() {
             <ul className="norms-list">
               <li>All the registered teams will be eligible to attend an <strong className="highlight" >ONLINE BOOTCAMP</strong> by Startify, Startup TN assisting you on the development of your ideas and project.</li>
               <li>It is necessary for all registered teams to attend the <strong  className="highlight">ONLINE BOOTCAMP</strong>.</li>
-              <li>Shortlisted teams will directly be considered for the FINAL ROUND of Startify, where your projects will be funded up to <strong  className="highlight">₹4 lakhs</strong>.</li>
+              <li>Shortlisted teams will directly be considered for the FINAL ROUND of Startify, where your projects will be funded up to <strong  className="highlight">₹3 lakhs</strong>.</li>
               <li>Enrollment Fee <strong  className="highlight">Rs. 200/-</strong> per team & Teams must consist of a maximum of 3 members only.</li>
             </ul>
           </section>
